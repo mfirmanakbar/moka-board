@@ -1,18 +1,9 @@
 package main
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
-	"github.com/mfirmanakbar/moka-board/datasources"
-	_ "github.com/mfirmanakbar/moka-board/routers"
+	"github.com/mfirmanakbar/moka-board/app"
 )
 
 func main() {
-	// print out SQL queries.
-	orm.Debug = true
-
-	// init db ORM
-	datasources.JurnalMokaDB()
-
-	beego.Run()
+	app.Run()
 }

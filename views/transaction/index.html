@@ -36,37 +36,32 @@
     </div>
 
     <div class="row">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-hover table-sm">
             <thead>
-            <tr>
-                <th scope="col">Jurnal Transaction ID</th>
-                <th scope="col">Moka Transaction ID</th>
-                <th scope="col">Moka Transaction Type</th>
-                <th scope="col">Connection ID</th>
-                <th scope="col">Created</th>
-                <th scope="col">Updated</th>
-                <th scope="col">Deleted</th>
-                <th scope="col">Action</th>
+            <tr class="text-center">
+                <th class="align-middle">Connection ID</th>
+                <th class="align-middle">Moka Transaction Type</th>
+                <th class="align-middle">Moka Transaction ID</th>
+                <th class="align-middle">Jurnal Transaction ID</th>
+                <th class="align-middle">Created at ..</th>
+                <th class="align-middle">Updated at ..</th>
+                <th class="align-middle">Deleted at ..</th>
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <td>Mark</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-                <td>@mdo</td>
-            </tr>
+                {{range $val := .tms}}
+                <tr class="text-center" style="white-space: nowrap;">
+                    <td><a href="connection/{{$val.ConnectionId}}" class="card-link">{{$val.ConnectionId}}</a></td>
+                    <td>{{$val.MokaTransactionType}}</td>
+                    <td><a href="api-moka-transaction/{{$val.MokaTransactionId}}" class="card-link">{{$val.MokaTransactionId}}</a></td>
+                    <td><a href="api-moka-jurnal/{{$val.JurnalTransactionId}}" class="card-link">{{$val.JurnalTransactionId}}</a></td>
+                    <td><small>{{$val.CreatedAt}}</small></td>
+                    <td><small>{{$val.UpdatedAt}}</small></td>
+                    <td><small>{{$val.DeletedAt}}</small></td>
+                </tr>
+                {{end}}
             </tbody>
         </table>
-
-{{/*        {{range $val := .itemx}}*/}}
-{{/*            <a class="dropdown-item" href="#">{{$val}}</a>*/}}
-{{/*        {{end}}*/}}
-
     </div>
 
 {{ end }}

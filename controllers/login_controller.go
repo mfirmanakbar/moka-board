@@ -4,12 +4,12 @@ import (
 	"github.com/astaxie/beego"
 )
 
-type MainController struct {
+type LoginController struct {
 	beego.Controller
 }
 
-func (c *MainController) Get() {
+func (c *LoginController) Get() {
 	c.Data["Website"] = "mfirmanakbar.com"
 	c.Data["Email"] = "em.firman.akbar@gmail.com"
-	c.TplName = "index.html"
+	c.TplName = "login/index.html"
 }

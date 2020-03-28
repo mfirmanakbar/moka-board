@@ -1,23 +1,32 @@
 package models
 
 import (
-	"github.com/astaxie/beego/orm"
+	"github.com/jinzhu/gorm"
 	"time"
 )
 
-type TransactionMappings struct {
-	Id                  int64
-	JurnalTransactionId int64
-	MokaTransactionId   int64
-	MokaTransactionType int8
-	ConnectionId        int64
-	CreatedAt           time.Time
-	UpdatedAt           time.Time
-	DeletedAt           time.Time
+type TransactionMapping struct {
+	Id                  int64     `json:"id"`
+	JurnalTransactionId int64     `json:"jurnal_transaction_id"`
+	MokaTransactionId   int64     `json:"moka_transaction_id"`
+	MokaTransactionType int8      `json:"moka_transaction_type"`
+	ConnectionId        int64     `json:"connection_id"`
+	CreatedAt           time.Time `json:"created_at"`
+	UpdatedAt           time.Time `json:"updated_at"`
+	DeletedAt           time.Time `json:"deleted_at"`
 }
 
-type TransactionMappingList []*TransactionMappings
+type TransactionMappings []*TransactionMapping
 
-func init() {
-	orm.RegisterModel(new(TransactionMappings))
+// (tm *TransactionMappingList) 		=> parameter from UI that called this method
+// (*TransactionMappingList, error) 	=> return list from data and error
+func (tm *TransactionMapping) SearchTransactionMappings(db *gorm.DB, conId int64) (*[]TransactionMapping, error) {
+	var err error
+	var transactionMappings []TransactionMapping
+	//transactionMappings := []TransactionMapping{}
+	err = db.Debug().Model(&TransactionMapping{}).Limit(10).Find(&transactionMappings).Error
+	if err != nil {
+		return &[]TransactionMapping{}, err
+	}
+	return &transactionMappings, nil
 }
