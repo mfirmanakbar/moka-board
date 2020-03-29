@@ -1,7 +1,7 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
+	"github.com/mfirmanakbar/moka-board/datasources"
 	"time"
 )
 
@@ -16,17 +16,45 @@ type TransactionMapping struct {
 	DeletedAt           time.Time `json:"deleted_at"`
 }
 
-type TransactionMappings []*TransactionMapping
+var (
+	mysql = datasources.JmDb
+)
 
-// (tm *TransactionMappingList) 		=> parameter from UI that called this method
-// (*TransactionMappingList, error) 	=> return list from data and error
-func (tm *TransactionMapping) SearchTransactionMappings(db *gorm.DB, conId int64) (*[]TransactionMapping, error) {
+type SearchParams struct {
+	MokaTransactionType int   `gorm:"default:'-2'"`
+	ConnectionId        int64 `gorm:"default:'-2'"`
+	MokaTransactionId   int64 `gorm:"default:'-2'"`
+	JurnalTransactionId int64 `gorm:"default:'-2'"`
+}
+
+func (tm *TransactionMapping) SearchTransactionMappings(prm SearchParams) (*[]TransactionMapping, error) {
 	var err error
 	var transactionMappings []TransactionMapping
-	//transactionMappings := []TransactionMapping{}
-	err = db.Debug().Model(&TransactionMapping{}).Limit(10).Find(&transactionMappings).Error
+
+	if prm.ConnectionId < 1 {
+		return &[]TransactionMapping{}, err
+	}
+
+	err = datasources.JmDb.Where(queryParamsModified(prm)).Unscoped().Find(&transactionMappings).Error
 	if err != nil {
 		return &[]TransactionMapping{}, err
 	}
 	return &transactionMappings, nil
+}
+
+func queryParamsModified(prm SearchParams) map[string]interface{} {
+	queryParams := make(map[string]interface{})
+	if prm.MokaTransactionType > -1 {
+		queryParams["moka_transaction_type"] = prm.MokaTransactionType
+	}
+	if prm.ConnectionId > 0 {
+		queryParams["connection_id"] = prm.ConnectionId
+	}
+	if prm.MokaTransactionId > 0 {
+		queryParams["moka_transaction_id"] = prm.MokaTransactionId
+	}
+	if prm.JurnalTransactionId > 0 {
+		queryParams["jurnal_transaction_id"] = prm.JurnalTransactionId
+	}
+	return queryParams
 }

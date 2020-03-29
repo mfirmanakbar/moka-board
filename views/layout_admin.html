@@ -57,7 +57,7 @@
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Map. Product
                     </a>
-                    <a class="nav-link" href="transaction">
+                    <a class="nav-link" href="transaction" id="MenuTransaction">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Map. Transaction
                     </a>
@@ -169,6 +169,13 @@
 <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
 <script src="/static/sb-admin/assets/demo/datatables-demo.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $({{ .ActiveMenu }}).addClass("active");
+    });
+</script>
+
 {{ block "js" . }}{{ end }}
 </body>
 </html>
