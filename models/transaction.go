@@ -9,7 +9,7 @@ type TransactionMapping struct {
 	Id                  int64     `json:"id"`
 	JurnalTransactionId int64     `json:"jurnal_transaction_id"`
 	MokaTransactionId   int64     `json:"moka_transaction_id"`
-	MokaTransactionType int8      `json:"moka_transaction_type"`
+	MokaTransactionType int       `json:"moka_transaction_type"`
 	ConnectionId        int64     `json:"connection_id"`
 	CreatedAt           time.Time `json:"created_at"`
 	UpdatedAt           time.Time `json:"updated_at"`
