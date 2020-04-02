@@ -6,22 +6,9 @@
 {{ define "content" }}
 
 <div class="row">
-    <div class="col py-4 justify-content-md-center">
+    <div class="col py-2 justify-content-md-center">
         <form method="get">
             <div class="form-row">
-                <div class="col-lg-3">
-                    <div class="form-group">
-                        <small>Moka Transaction Type</small>
-                        <select class="custom-select mr-sm-2" name="MokaTransactionType" id="MokaTransactionType">
-                            <option value="-1">Moka Trans. Type</option>
-                            <option value="0">(0) Open Sales Invoice</option>
-                            <option value="1">(1) Paid Sales Invoice</option>
-                            <option value="2">(2) Receive Payment</option>
-                            <option value="3">(3) Sales Return</option>
-                            <option value="4">(4) Refunded Open Sales Invoice</option>
-                        </select>
-                    </div>
-                </div>
                 <div class="col-lg-2">
                     <div class="form-group">
                         <small>Connection ID</small>
@@ -40,6 +27,19 @@
                         <input type="number" class="form-control" placeholder="Jurnal Trans ID" name="JurnalTransactionId" value="{{ .JurnalTransactionId }}">
                     </div>
                 </div>
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <small>Moka Transaction Type</small>
+                        <select class="custom-select mr-sm-2" name="MokaTransactionType" id="MokaTransactionType">
+                            <option value="-1">All Types</option>
+                            <option value="0">(0) Open Sales Invoice</option>
+                            <option value="1">(1) Paid Sales Invoice</option>
+                            <option value="2">(2) Receive Payment</option>
+                            <option value="3">(3) Sales Return</option>
+                            <option value="4">(4) Refunded Open Sales Invoice</option>
+                        </select>
+                    </div>
+                </div>
                 <div class="col-lg-1 col-sm-12">
                     <div class="form-group">
                         <label></label>
@@ -52,54 +52,52 @@
 </div>
 
 <div class="row">
-    <table class="table table-bordered table-hover table-sm">
-        <thead>
-        <tr class="text-center">
-            <th class="align-middle"><small><b>Connection ID</b></small></th>
-            <th class="align-middle"><small><b>Moka Transaction Type</b></small></th>
-            <th class="align-middle"><small><b>Moka Transaction ID</b></small></th>
-            <th class="align-middle"><small><b>Jurnal Transaction ID</b></small></th>
-            <th class="align-middle"><small><b>Created at ..</b></small></th>
-            <th class="align-middle"><small><b>Updated at ..</b></small></th>
-            <th class="align-middle"><small><b>Deleted at ..</b></small></th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="table-responsive">
+        <div class="card">
+            <div class="card-body">
+{{/*                {{ $length := len .tms }}*/}}
+                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                    <tr class="text-center">
+                        <th class="align-middle"><small><b>Connection ID</b></small></th>
+                        <th class="align-middle"><small><b>Moka Transaction Type</b></small></th>
+                        <th class="align-middle"><small><b>Moka Transaction ID</b></small></th>
+                        <th class="align-middle"><small><b>Jurnal Transaction ID</b></small></th>
+                        <th class="align-middle"><small><b>Created at ..</b></small></th>
+                        <th class="align-middle"><small><b>Updated at ..</b></small></th>
+                        <th class="align-middle"><small><b>Deleted at ..</b></small></th>
+                    </tr>
+                    </thead>
+                    <tbody>
 
-        {{range $val := .tms}}
-            <tr class="text-center" style="white-space: nowrap;">
-                <td><small><a href="connection/{{$val.ConnectionId}}" class="card-link">{{$val.ConnectionId}}</a></small></td>
-            {{if (eq $val.MokaTransactionType 0) }}
-                <td class="table-warning"><small>(0) Open Sales Invoice</small></td>
-            {{else if (eq $val.MokaTransactionType 1) }}
-                <td class="table-success"><small>(1) Paid Sales Invoice</small></td>
-            {{else if (eq $val.MokaTransactionType 2) }}
-                <td class="table-primary"><small>(2) Receive Payment</small></td>
-            {{else if (eq $val.MokaTransactionType 3) }}
-                <td class="table-danger"><small>(3) Sales Return</small></td>
-            {{else if (eq $val.MokaTransactionType 4) }}
-                <td class="table-secondary"><small>(4) Refunded Open Sales Invoice</small></td>
-            {{else }}
-                <td class="text-danger"><small><b>Unknown Type for {{ $val.MokaTransactionType }}</b></small></td>
-            {{end }}
-                <td><small><a href="api-moka-transaction/{{$val.MokaTransactionId}}" class="card-link">{{$val.MokaTransactionId}}</a></small></td>
-                <td><small><a href="api-moka-jurnal/{{$val.JurnalTransactionId}}" class="card-link">{{$val.JurnalTransactionId}}</a></small></td>
-                <td><small>{{$val.CreatedAt}}</small></td>
-                <td><small>{{$val.UpdatedAt}}</small></td>
-                <td><small>{{$val.DeletedAt}}</small></td>
-            </tr>
-        {{end}}
-
-        {{ $length := len .tms }} {{ if eq $length 0 }}
-            <tr>
-                <td colspan="7" class="text-center py-3 text-primary">
-                    No data found
-                </td>
-            </tr>
-        {{ end }}
-
-        </tbody>
-    </table>
+                    {{ range $val := .tms }}
+                        <tr class="text-center" style="white-space: nowrap;">
+                            <td><small><a href="connection/{{$val.ConnectionId}}" class="card-link">{{$val.ConnectionId}}</a></small></td>
+                        {{if (eq $val.MokaTransactionType 0) }}
+                            <td class="table-warning"><small>(0) Open Sales Invoice</small></td>
+                        {{else if (eq $val.MokaTransactionType 1) }}
+                            <td class="table-success"><small>(1) Paid Sales Invoice</small></td>
+                        {{else if (eq $val.MokaTransactionType 2) }}
+                            <td class="table-primary"><small>(2) Receive Payment</small></td>
+                        {{else if (eq $val.MokaTransactionType 3) }}
+                            <td class="table-danger"><small>(3) Sales Return</small></td>
+                        {{else if (eq $val.MokaTransactionType 4) }}
+                            <td class="table-secondary"><small>(4) Refunded Open Sales Invoice</small></td>
+                        {{else }}
+                            <td class="text-danger"><small><b>Unknown Type for {{ $val.MokaTransactionType }}</b></small></td>
+                        {{end }}
+                            <td><small><a href="api-moka-transaction/{{$val.MokaTransactionId}}" class="card-link">{{$val.MokaTransactionId}}</a></small></td>
+                            <td><small><a href="api-moka-jurnal/{{$val.JurnalTransactionId}}" class="card-link">{{$val.JurnalTransactionId}}</a></small></td>
+                            <td><small>{{$val.CreatedAt}}</small></td>
+                            <td><small>{{$val.UpdatedAt}}</small></td>
+                            <td><small>{{$val.DeletedAt}}</small></td>
+                        </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script>

@@ -16,18 +16,23 @@ type TransactionMapping struct {
 	DeletedAt           time.Time `json:"deleted_at"`
 }
 
-var (
-	mysql = datasources.JmDb
-)
-
-type SearchParams struct {
-	MokaTransactionType int   `gorm:"default:'-2'"`
-	ConnectionId        int64 `gorm:"default:'-2'"`
-	MokaTransactionId   int64 `gorm:"default:'-2'"`
-	JurnalTransactionId int64 `gorm:"default:'-2'"`
+type TransactionParams struct {
+	MokaTransactionType int
+	ConnectionId        int64
+	MokaTransactionId   int64
+	JurnalTransactionId int64
 }
 
-func (tm *TransactionMapping) SearchTransactionMappings(prm SearchParams) (*[]TransactionMapping, error) {
+type TransactionMappingInterface interface {
+	SearchData(TransactionParams) (*[]TransactionMapping, error)
+	QueryParams(TransactionParams) map[string]interface{}
+}
+
+func TransactionDTO() TransactionMappingInterface {
+	return &TransactionMapping{}
+}
+
+func (tm *TransactionMapping) SearchData(prm TransactionParams) (*[]TransactionMapping, error) {
 	var err error
 	var transactionMappings []TransactionMapping
 
@@ -35,14 +40,14 @@ func (tm *TransactionMapping) SearchTransactionMappings(prm SearchParams) (*[]Tr
 		return &[]TransactionMapping{}, err
 	}
 
-	err = datasources.JmDb.Where(queryParamsModified(prm)).Unscoped().Find(&transactionMappings).Error
+	err = datasources.JmDb.Where(tm.QueryParams(prm)).Unscoped().Find(&transactionMappings).Error
 	if err != nil {
-		return &[]TransactionMapping{}, err
+		return &transactionMappings, err
 	}
 	return &transactionMappings, nil
 }
 
-func queryParamsModified(prm SearchParams) map[string]interface{} {
+func (tm *TransactionMapping) QueryParams(prm TransactionParams) map[string]interface{} {
 	queryParams := make(map[string]interface{})
 	if prm.MokaTransactionType > -1 {
 		queryParams["moka_transaction_type"] = prm.MokaTransactionType

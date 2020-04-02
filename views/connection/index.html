@@ -1,0 +1,192 @@
+{{ template "layout_admin.html" . }}
+{{ define "css" }}
+    {{/*    <link rel="stylesheet" href="/static/css/example.css">*/}}
+{{ end}}
+
+{{ define "content" }}
+<hr>
+<div class="row">
+    <div class="col py-0 justify-content-md-center">
+        <form method="get">
+            <!-- Trigger modal -->
+            <p class="text-right">
+                <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true" data-toggle="modal" data-target="#exampleModal">
+                    <i class="fas fa-search"></i> Data Filter
+                </a>
+            </p>
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Data Filter</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <small>Jurnal Company ID</small>
+                                <input type="text" class="form-control form-control-sm" placeholder="Company ID" name="CompanyId" value="{{ .CompanyId }}">
+                            </div>
+                            <div class="form-group">
+                                <small>Connection ID</small>
+                                <input type="text" class="form-control form-control-sm" placeholder="Connection ID" name="ConnectionId" value="{{ .ConnectionId }}">
+                            </div>
+                            <div class="form-group">
+                                <small>Connection Name</small>
+                                <input type="text" class="form-control form-control-sm" placeholder="Connection Name" name="ConnectionName" value="{{ .ConnectionName }}">
+                            </div>
+                            <div class="form-group">
+                                <small>Show Deleted</small>
+                                <select class="custom-select mr-sm-2 form-control-sm" name="ShowDeleted" id="ShowDeleted">
+                                    <option value="false">No</option>
+                                    <option value="true">Yes</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <small>Only Show Synchronizing</small>
+                                <select class="custom-select form-control-sm" name="ShowOnlySyncing" id="ShowOnlySyncing">
+                                    <option value="false">No</option>
+                                    <option value="true">Yes</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="reset" class="btn btn-secondary btn-sm">Clear</button>
+                            <button type="submit" class="btn btn-primary btn-sm">Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+{{ $length := len .conns }}
+{{ if eq $length 0}}
+<div class="row">
+    <div class="col-12 py-0 mt-0">
+        <hr>
+        <p align="center">No data available found</p>
+    </div>
+</div>
+{{ else }}
+<div class="row">
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr class="text-center">
+                            <th class="align-middle"><small><b>#ConnID<br>#OutletId</b></small></th>
+                            <th class="align-middle"><small><b>#Name<br>#OutletName<br>#Prefix or Suffix<br>#StartDate</b></small></th>
+                            <th class="align-middle"><small><b>#PaymentMethodV2<br>#SyncTrnByProductName<br>#IsTrackInventory</b></small></th>
+                            <th class="align-middle"><small><b>#StartDate<br>#CreatedAt<br>#UpdatedAt<br>#DeletedAt</b></small></th>
+                            <th class="align-middle"><small><b><span class="text-success">SyncMaster</span><br>#LastUpdated<br>#LastSuccess</b></small></th>
+                            <th class="align-middle"><small><b><span class="text-success">SyncTransaction</span><br>#LastUpdated<br>#LastSuccess</b></small></th>
+                            <th class="align-middle"><small><b><span class="text-success">SyncStatus</span><br>#Master<br>#Transaction</b></small></th>
+                            <th class="align-middle"><small><b>#IsDailySync<br>#DailySyncTime</b></small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {{ range $val := .conns }}
+                        <tr class="text-center" style="white-space: nowrap;">
+                            <td>
+                                <small>#{{$val.Id}}<br>#{{$val.OutletId}}</small>
+                            </td>
+                            <td>
+                                <small>
+                                    #{{$val.Name}}<br>#{{$val.OutletName}}<br>
+                                    {{ if eq $val.Suffix ""}}
+                                        #Prefix: <span class="text-success"><b>{{$val.Prefix}}</b></span>
+                                    {{ else }}
+                                        #Suffix: <span class="text-success"><b>{{$val.Suffix}}</b></span>
+                                    {{ end }}
+                                    <br>#{{$val.StartDate}}
+                                </small>
+                            </td>
+                            <td>
+                            {{if eq $val.PaymentMethodV2 ""}}
+                                <small class="text-danger"><b>#No</b></small>
+                            {{else}}
+                                <small class="text-success"><b>#Yes</b></small>
+                            {{end}}
+                            <br>
+                            {{if eq $val.SyncTrnByProductName 0}}
+                                <small class="text-danger"><b>#No</b></small>
+                            {{else}}
+                                <small class="text-success"><b>#Yes</b></small>
+                            {{end}}
+                            <br>
+                            {{if eq $val.IsTrackInventory 0}}
+                                <small class="text-danger"><b>#No</b></small>
+                            {{else}}
+                                <small class="text-success"><b>#Yes</b></small>
+                            {{end}}
+                            </td>
+                            <td>
+                                <small>
+                                    {{$val.StartDate}}<br>
+                                    {{$val.CreatedAt}}<br>
+                                    {{$val.UpdatedAt}}<br>
+                                    {{$val.DeletedAt}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{$val.LastUpdatedSyncMaster}}<br>
+                                    {{$val.LastSuccessSyncMaster}}
+                                </small>
+                            </td>
+                            <td>
+                                <small>
+                                    {{$val.LastUpdatedSyncTransaction}}<br>
+                                    {{$val.LastSuccessSyncTransaction}}
+                                </small>
+                            </td>
+
+                            <td>
+                                {{if eq $val.SyncStatusMaster 0}}
+                                    <small class="text-danger"><b>#No</b></small>
+                                {{else}}
+                                    <small class="text-success"><b>#Yes</b></small>
+                                {{end}}
+                                <br>
+                                {{if eq $val.SyncStatusTransaction 0}}
+                                    <small class="text-danger"><b>#No</b></small>
+                                {{else}}
+                                    <small class="text-success"><b>#Yes</b></small>
+                                {{end}}
+                            </td>
+
+                            <td>
+                                {{if eq $val.IsDailySync 0}}
+                                    <small class="text-danger"><b>#No</b></small>
+                                {{else}}
+                                    <small class="text-success"><b>#Yes</b></small>
+                                {{end}}
+                                    <br>
+                                    <small class="text-primary"><b>#{{$val.DailySyncTime}}</b></small>
+                            </td>
+
+                        </tr>
+                    {{ end }}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}
+<script>
+    document.getElementById("ShowDeleted").selectedIndex = {{ .ShowDeleted }};
+    document.getElementById("ShowOnlySyncing").selectedIndex = {{ .ShowOnlySyncing }};
+</script>
+
+{{ end }}
+
+{{ define "js" }}
+    {{/*    <script src="/static/js/example.js"></script>*/}}
+{{ end}}
