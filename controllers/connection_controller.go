@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/mfirmanakbar/moka-board/models"
 	"github.com/mfirmanakbar/moka-board/utils"
@@ -26,14 +27,38 @@ func Connection() ConnectionControllerInterface {
 func (c *ConnectionController) Get() {
 	prm := c.SearchParams()
 
-	conns, err := models.ConnectionDTO().SearchData(prm)
-	if err != nil {
-		println(err.Error())
-		c.Data["err_msg"] = "Error on models.ConnectionDTO().SearchData(prm): " + err.Error()
+	if prm.CompanyId < 1 {
+		conns, err := models.ConnectionDTO().SearchData(prm)
+		if err != nil {
+			println(err.Error())
+			c.Data["err_msg"] = "Error on models.ConnectionDTO().SearchData(prm): " + err.Error()
+		}
+		c.Data["conns"] = conns
+	} else {
+		jc, err := models.JurnalCompanyDTO().FindConnectionsByCompanyId(prm.CompanyId)
+		if err != nil {
+			println("ERROR FindConnectionsByCompanyId")
+		}
+		//conx := make([]models.Connection)
+		//connsIndex := 0
+		for _, am := range jc.AccountMappings {
+			//println(am.Connections)
+			for _, con := range am.Connections {
+				fmt.Println(con.ID)
+				//conns[0] = con
+				//connsIndex = connsIndex + 1
+			}
+		}
+		//c.Data["conns"] = conns
 	}
 
+	//_, e3 := models.JurnalCompanyDTO().FindConnectionsByCompanyId(2214)
+	//if e3 != nil {
+	//	println("ERROR BRO")
+	//}
+
 	c.DataModifiedParams(prm)
-	c.Data["conns"] = conns
+	//c.Data["conns"] = conns
 	c.Data["ActiveMenu"] = "#MenuConnection"
 	c.Data["page_title"] = "Connection Settings"
 	c.TplName = "connection/index.html"

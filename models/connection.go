@@ -1,11 +1,13 @@
 package models
 
 import (
+	"github.com/jinzhu/gorm"
 	"github.com/mfirmanakbar/moka-board/datasources"
 	"time"
 )
 
 type Connection struct {
+	gorm.Model
 	Id                         int64     `json:"id"`
 	AccountMappingId           int64     `json:"account_mapping_id"`
 	Name                       string    `json:"name"`
@@ -61,11 +63,19 @@ func (c Connection) SearchData(prm ConnectionParams) (*[]Connection, error) {
 	var err error
 	var connections []Connection
 
-	if prm.CompanyId < 1 && prm.ConnectionId < 1 && !prm.ShowOnlySyncing {
+	if prm.CompanyId < 1 && prm.ConnectionId < 1 && prm.ConnectionName == "" && !prm.ShowOnlySyncing {
 		return &[]Connection{}, err
 	}
 
-	err = datasources.JmDb.Where(c.QueryParams(prm)).Unscoped().Find(&connections).Error
+	if prm.ConnectionName != "" {
+		var a [2]string
+		a[0] = "name LIKE ?"
+		a[1] = "%" + prm.ConnectionName + "%"
+		err = datasources.JmDb.Where(a[0], a[1]).Unscoped().Find(&connections).Error
+	} else {
+		err = datasources.JmDb.Where(c.QueryParams(prm)).Unscoped().Find(&connections).Error
+	}
+
 	if err != nil {
 		return &connections, err
 	}
