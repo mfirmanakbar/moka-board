@@ -1,4 +1,4 @@
-package controllers
+package connection_controller
 
 import (
 	"github.com/astaxie/beego"
@@ -6,11 +6,11 @@ import (
 	"github.com/mfirmanakbar/moka-board/utils"
 )
 
-type ConnectionController struct {
+type Index struct {
 	beego.Controller
 }
 
-func (c *ConnectionController) Get() {
+func (c *Index) Get() {
 	prm := c.SearchParams()
 
 	if prm.CompanyId > 0 {
@@ -34,7 +34,7 @@ func (c *ConnectionController) Get() {
 	c.TplName = "connection/index.html"
 }
 
-func (c *ConnectionController) DataModifiedParams(prm models.ConnectionParams) {
+func (c *Index) DataModifiedParams(prm models.ConnectionParams) {
 	//searchResultsOf := map[string]string{"ab1":"cd", "ab2":"go"}
 	//searchResultsOf := []string{"abc","def"}
 	searchResultsOf := make(map[string]interface{})
@@ -67,7 +67,7 @@ func (c *ConnectionController) DataModifiedParams(prm models.ConnectionParams) {
 	c.Data["ShowOnlySyncing"] = prm.ShowOnlySyncing
 }
 
-func (c *ConnectionController) SearchParams() models.ConnectionParams {
+func (c *Index) SearchParams() models.ConnectionParams {
 	params := models.ConnectionParams{
 		CompanyId:       utils.ConvertStringToInt64(c.GetString("CompanyId"), 0),
 		ConnectionId:    utils.ConvertStringToInt64(c.GetString("ConnectionId"), 0),

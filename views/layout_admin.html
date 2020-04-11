@@ -44,19 +44,19 @@
             <div class="sb-sidenav-menu">
                 <div class="nav">
                     <div class="sb-sidenav-menu-heading">Core</div>
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="/dashboard">
                         <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
                         Dashboard
                     </a>
-                    <a class="nav-link" href="connection" id="MenuConnection">
+                    <a class="nav-link" href="/connection" id="MenuConnection">
                         <div class="sb-nav-link-icon"><i class="fas fa-code-branch"></i></div>
                         Connection
                     </a>
-                    <a class="nav-link" href="product">
+                    <a class="nav-link" href="/product">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Map. Product
                     </a>
-                    <a class="nav-link" href="transaction" id="MenuTransaction">
+                    <a class="nav-link" href="/transaction" id="MenuTransaction">
                         <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
                         Map. Transaction
                     </a>
@@ -141,7 +141,7 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid">
-                <h3 class="mt-2 py-2">{{ .page_title }}</h3>
+                <h4 class="mt-2 py-2">{{ .page_title }}</h4>
                 {{ block "content" . }}{{ end }}
             </div>
         </main>
@@ -158,20 +158,18 @@
     </div>
 </div>
 
-{{/*<script src="https://code.jquery.com/jquery-3.4.1.min.js" crossorigin="anonymous"></script>*/}}
+{{/*<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>*/}}
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" ></script>
 <script src="/static/sb-admin/js/scripts.js"></script>
-{{/*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" crossorigin="anonymous"></script>*/}}
+{{/*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js"></script>*/}}
 {{/*<script src="/static/sb-admin/assets/demo/chart-area-demo.js"></script>*/}}
 {{/*<script src="/static/sb-admin/assets/demo/chart-bar-demo.js"></script>*/}}
-<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" crossorigin="anonymous"></script>
-<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 <script src="/static/sb-admin/assets/demo/datatables-demo.js"></script>
 
-<script type="javascript">
-    $(document).ready(function () {
-        $({{ .ActiveMenu }}).addClass("active");
-    });
+<script type="text/javascript">
+    $("{{ .ActiveMenu }}").addClass("active");
 </script>
 
 {{ block "js" . }}{{ end }}

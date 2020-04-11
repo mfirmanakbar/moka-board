@@ -1,0 +1,42 @@
+{{ template "layout_admin.html" . }}
+{{ define "css" }}
+    {{/*    <link rel="stylesheet" href="/static/css/example.css">*/}}
+{{ end}}
+
+{{ define "content" }}
+
+{{/*<div class="row">*/}}
+{{/*    <div class="col py-2 justify-content-md-center">*/}}
+{{/*    </div>*/}}
+{{/*</div>*/}}
+
+<div class="row">
+    <div class="table-responsive">
+        <div class="card">
+            <div class="card-body">
+
+                {{ range $key, $value := .connectionDetail }}
+                <div class="row">
+                    <div class="col-3 text-right">
+                        <span class="text-right"><b>{{ $key }}</b></span>
+                    </div>
+                    <div class="col-9">
+                        <span class="text-right">{{ $value }}</span>
+                    </div>
+                </div>
+                {{ end }}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+</script>
+
+{{ end }}
+
+{{ define "js" }}
+    {{/*    <script src="/static/js/example.js"></script>*/}}
+{{ end}}

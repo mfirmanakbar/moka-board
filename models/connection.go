@@ -51,11 +51,20 @@ type ConnectionParams struct {
 
 type ConnectionInterface interface {
 	SearchData(ConnectionParams) (*[]Connection, error)
+	FindById(ConnectionParams) (*Connection, error)
 	QueryParams(ConnectionParams) map[string]interface{}
 }
 
 func ConnectionDTO() ConnectionInterface {
 	return &Connection{}
+}
+
+func (c Connection) FindById(prm ConnectionParams) (*Connection, error) {
+	err := db.JurnalMokaGorm.Where(c.QueryParams(prm)).Unscoped().Find(&c).Error
+	if err != nil {
+		return &c, err
+	}
+	return &c, nil
 }
 
 func (c Connection) SearchData(prm ConnectionParams) (*[]Connection, error) {
