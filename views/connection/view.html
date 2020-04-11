@@ -15,23 +15,77 @@
         <div class="card">
             <div class="card-body">
 
-                {{ range $key, $value := .connectionDetail }}
-                <div class="row">
-                    <div class="col-3 text-right">
-                        <span class="text-right"><b>{{ $key }}</b></span>
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="connection-tab" data-toggle="tab" href="#connection" role="tab" aria-controls="connection" aria-selected="true">Connection</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="jurnalUser-tab" data-toggle="tab" href="#jurnalUser" role="tab" aria-controls="jurnalUser" aria-selected="false">Jurnal User</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="mokaAccount-tab" data-toggle="tab" href="#mokaAccount" role="tab" aria-controls="mokaAccount" aria-selected="false">Moka Account</a>
+                    </li>
+                </ul>
+                <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="connection" role="tabpanel" aria-labelledby="connection-tab">
+                        <br>
+                        {{ range $key, $value := .connectionDetail }}
+                            <div class="row mt-2">
+                                <div class="col-3 text-right">
+                                    <span class="text-right text-muted">{{ $key }}</span>
+                                </div>
+                                <div class="col-9">
+                                    <span class="text-right">{{ $value }}</span>
+                                </div>
+                            </div>
+                        {{ end }}
                     </div>
-                    <div class="col-9">
-                        <span class="text-right">{{ $value }}</span>
+                    <div class="tab-pane fade" id="jurnalUser" role="tabpanel" aria-labelledby="jurnalUser-tab">
+                        <br>
+                        <table class="table table-hover table-sm">
+                            <thead>
+                            <tr>
+                                <th scope="col">Email</th>
+                                <th scope="col">AccessToken</th>
+                                <th scope="col">CreatedAt</th>
+                                <th scope="col">UpdatedAt</th>
+                                <th scope="col">DeletedAt</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {{ range $ju := .jurnalUsers }}
+                                <tr>
+                                    <td>{{$ju.Email}}</td>
+                                    <td>{{$ju.AccessToken}}</td>
+                                    <td>{{$ju.CreatedAt}}</td>
+                                    <td>{{$ju.UpdatedAt}}</td>
+                                    <td>{{$ju.DeletedAt}}</td>
+                                </tr>
+                            {{ end }}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="tab-pane fade" id="mokaAccount" role="tabpanel" aria-labelledby="mokaAccount-tab">
+                        <br>
+                        {{ range $key, $value := .mokaAccount }}
+                            <div class="row mt-2">
+                                <div class="col-3 text-right">
+                                    <span class="text-right text-muted">{{ $key }}</span>
+                                </div>
+                                <div class="col-9">
+                                    <span class="text-right">{{ $value }}</span>
+                                </div>
+                            </div>
+                        {{ end }}
                     </div>
                 </div>
-                {{ end }}
 
             </div>
         </div>
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
 
 </script>
 

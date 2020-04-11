@@ -142,7 +142,7 @@
                     <tbody>
                     {{ range $val := .conns }}
                         <tr class="text-center" style="white-space: nowrap;">
-                            <td><small>{{$val.ID}}</small></td>
+                            <td><small><a href="/connection/{{$val.ID}}/view">{{$val.ID}}</a></small></td>
                             <td><small>{{$val.Name}}</small></td>
                             <td><small>{{$val.OutletId}}</small></td>
                             <td><small>{{$val.OutletName}}</small></td>

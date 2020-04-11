@@ -1,20 +1,20 @@
 package models
 
 import (
-	"github.com/jinzhu/gorm"
 	"github.com/mfirmanakbar/moka-board/db"
+	"time"
 )
 
 // JurnalCompany has many JurnalUsers, JurnalCompanyID is the foreign key
 type JurnalCompany struct {
-	gorm.Model
-	//Id              int64
-	CompanyId   int64
-	Email       string
-	CompanyName string
-	//CreatedAt       time.Time
-	//UpdatedAt       time.Time
-	//DeletedAt       time.Time
+	//gorm.Model
+	ID              int64
+	CompanyId       int64
+	Email           string
+	CompanyName     string
+	CreatedAt       *time.Time       `sql:"index" json:"created_at"`
+	UpdatedAt       *time.Time       `sql:"index" json:"updated_at"`
+	DeletedAt       *time.Time       `sql:"index" json:"deleted_at"`
 	JurnalUsers     []JurnalUser     `gorm:"foreignkey:JurnalCompanyId"`
 	AccountMappings []AccountMapping `gorm:"foreignkey:JurnalCompanyId"`
 }
