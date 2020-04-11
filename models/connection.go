@@ -75,6 +75,8 @@ func (c Connection) SearchData(prm ConnectionParams) (*[]Connection, error) {
 		} else {
 			err = db.JurnalMokaGorm.Where(a[0], a[1]).Find(&connections).Error
 		}
+	} else if prm.ShowOnlySyncing {
+		err = db.JurnalMokaGorm.Where("sync_status_master = 1").Or("sync_status_transaction = 1").Find(&connections).Error
 	} else {
 		err = db.JurnalMokaGorm.Where(c.QueryParams(prm)).Unscoped().Find(&connections).Error
 	}
