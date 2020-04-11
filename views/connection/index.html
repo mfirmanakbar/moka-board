@@ -7,7 +7,7 @@
 <hr>
 <div class="row">
     <div class="col py-0 justify-content-md-center">
-        <form method="get">
+        <form>
             <!-- Trigger modal -->
             <p class="text-right">
                 <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true" data-toggle="modal" data-target="#exampleModal">
@@ -27,15 +27,42 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <small>Jurnal Company ID</small>
-                                <input type="text" class="form-control form-control-sm" placeholder="Company ID" name="CompanyId" value="{{ .CompanyId }}">
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    placeholder="Company ID"
+                                    name="CompanyId"
+                                    id="CompanyId"
+                                    {{/*value="{{ .CompanyId }}"*/}}
+                                    data-onload="connsOnChange(1)"
+                                    onchange="connsOnChange(1)"
+                                >
                             </div>
                             <div class="form-group">
                                 <small>Connection ID</small>
-                                <input type="text" class="form-control form-control-sm" placeholder="Connection ID" name="ConnectionId" value="{{ .ConnectionId }}">
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    placeholder="Connection ID"
+                                    name="ConnectionId"
+                                    id="ConnectionId"
+                                    {{/*value="{{ .ConnectionId }}"*/}}
+                                    data-onload="connsOnChange(2)"
+                                    onchange="connsOnChange(2)"
+                                >
                             </div>
                             <div class="form-group">
                                 <small>Connection Name</small>
-                                <input type="text" class="form-control form-control-sm" placeholder="Connection Name" name="ConnectionName" value="{{ .ConnectionName }}">
+                                <input
+                                    type="text"
+                                    class="form-control form-control-sm"
+                                    placeholder="Connection Name"
+                                    name="ConnectionName"
+                                    id="ConnectionName"
+                                    {{/*value="{{ .ConnectionName }}"*/}}
+                                    data-onload="connsOnChange(3)"
+                                    onchange="connsOnChange(3)"
+                                >
                             </div>
                             <div class="form-group">
                                 <small>Show Deleted</small>
@@ -53,7 +80,7 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="reset" class="btn btn-secondary btn-sm">Clear</button>
+                            <button id="clearBtn" type="button" class="btn btn-secondary btn-sm">Clear</button>
                             <button type="submit" class="btn btn-primary btn-sm">Filter</button>
                         </div>
                     </div>
@@ -64,113 +91,97 @@
     </div>
 </div>
 
-{{ $length := len .conns }}
-{{ if eq $length 0}}
-<div class="row">
-    <div class="col-12 py-0 mt-0">
-        <hr>
-        <p align="center">No data available found</p>
-    </div>
-</div>
-{{ else }}
 <div class="row">
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0">
+
+                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0" data-page-length='100'>
                     <thead>
                         <tr class="text-center">
-                            <th class="align-middle"><small><b>#ConnID<br>#OutletId</b></small></th>
-                            <th class="align-middle"><small><b>#Name<br>#OutletName<br>#Prefix or Suffix<br>#StartDate</b></small></th>
-                            <th class="align-middle"><small><b>#PaymentMethodV2<br>#SyncTrnByProductName<br>#IsTrackInventory</b></small></th>
-                            <th class="align-middle"><small><b>#StartDate<br>#CreatedAt<br>#UpdatedAt<br>#DeletedAt</b></small></th>
-                            <th class="align-middle"><small><b><span class="text-success">SyncMaster</span><br>#LastUpdated<br>#LastSuccess</b></small></th>
-                            <th class="align-middle"><small><b><span class="text-success">SyncTransaction</span><br>#LastUpdated<br>#LastSuccess</b></small></th>
-                            <th class="align-middle"><small><b><span class="text-success">SyncStatus</span><br>#Master<br>#Transaction</b></small></th>
-                            <th class="align-middle"><small><b>#IsDailySync<br>#DailySyncTime</b></small></th>
+                            <th class="align-middle"><small><b>ConnectionID</b></small></th>
+                            <th class="align-middle"><small><b>Connection Name</b></small></th>
+                            <th class="align-middle"><small><b>OutletId</b></small></th>
+                            <th class="align-middle"><small><b>OutletName</b></small></th>
+                            <th class="align-middle"><small><b>Prefix</b></small></th>
+                            <th class="align-middle"><small><b>Suffix</b></small></th>
+                            <th class="align-middle"><small><b>StartDate</b></small></th>
+                            <th class="align-middle"><small><b>Last Updated<br>SyncMaster</b></small></th>
+                            <th class="align-middle"><small><b>Last Success<br>SyncMaster</b></small></th>
+                            <th class="align-middle"><small><b>Last Updated<br>SyncTransaction</b></small></th>
+                            <th class="align-middle"><small><b>Last Success<br>SyncTransaction</b></small></th>
+                            <th class="align-middle"><small><b>SyncStatus<br>Master</b></small></th>
+                            <th class="align-middle"><small><b>SyncStatus<br>Transaction</b></small></th>
+                            <th class="align-middle"><small><b>IsDailySync?</b></small></th>
+                            <th class="align-middle"><small><b>DailySyncTime</b></small></th>
+                            <th class="align-middle"><small><b>IsSyncTransaction<br>ByProductName?</b></small></th>
+                            <th class="align-middle"><small><b>IsTrackInventory?</b></small></th>
+                            <th class="align-middle"><small><b>IsPaymentMethod<br>Version-2 ?</b></small></th>
+                            <th class="align-middle"><small><b>CreatedAt</b></small></th>
+                            <th class="align-middle"><small><b>UpdatedAt</b></small></th>
+                            <th class="align-middle"><small><b>DeletedAt</b></small></th>
                         </tr>
                     </thead>
                     <tbody>
                     {{ range $val := .conns }}
                         <tr class="text-center" style="white-space: nowrap;">
-                            <td>
-                                <small>#{{$val.Id}}<br>#{{$val.OutletId}}</small>
-                            </td>
-                            <td>
-                                <small>
-                                    #{{$val.Name}}<br>#{{$val.OutletName}}<br>
-                                    {{ if eq $val.Suffix ""}}
-                                        #Prefix: <span class="text-success"><b>{{$val.Prefix}}</b></span>
-                                    {{ else }}
-                                        #Suffix: <span class="text-success"><b>{{$val.Suffix}}</b></span>
-                                    {{ end }}
-                                    <br>#{{$val.StartDate}}
-                                </small>
-                            </td>
-                            <td>
-                            {{if eq $val.PaymentMethodV2 ""}}
-                                <small class="text-danger"><b>#No</b></small>
-                            {{else}}
-                                <small class="text-success"><b>#Yes</b></small>
-                            {{end}}
-                            <br>
-                            {{if eq $val.SyncTrnByProductName 0}}
-                                <small class="text-danger"><b>#No</b></small>
-                            {{else}}
-                                <small class="text-success"><b>#Yes</b></small>
-                            {{end}}
-                            <br>
-                            {{if eq $val.IsTrackInventory 0}}
-                                <small class="text-danger"><b>#No</b></small>
-                            {{else}}
-                                <small class="text-success"><b>#Yes</b></small>
-                            {{end}}
-                            </td>
-                            <td>
-                                <small>
-                                    {{$val.StartDate}}<br>
-                                    {{$val.CreatedAt}}<br>
-                                    {{$val.UpdatedAt}}<br>
-                                    {{$val.DeletedAt}}
-                                </small>
-                            </td>
-                            <td>
-                                <small>
-                                    {{$val.LastUpdatedSyncMaster}}<br>
-                                    {{$val.LastSuccessSyncMaster}}
-                                </small>
-                            </td>
-                            <td>
-                                <small>
-                                    {{$val.LastUpdatedSyncTransaction}}<br>
-                                    {{$val.LastSuccessSyncTransaction}}
-                                </small>
-                            </td>
+                            <td><small>{{$val.ID}}</small></td>
+                            <td><small>{{$val.Name}}</small></td>
+                            <td><small>{{$val.OutletId}}</small></td>
+                            <td><small>{{$val.OutletName}}</small></td>
+                            <td><small>{{$val.Prefix}}</small></td>
+                            <td><small>{{$val.Suffix}}</small></td>
+                            <td><small>{{$val.StartDate}}</small></td>
+                            <td><small>{{$val.LastUpdatedSyncMaster}}</small></td>
+                            <td><small>{{$val.LastSuccessSyncMaster}}</small></td>
+                            <td><small>{{$val.LastUpdatedSyncTransaction}}</small></td>
+                            <td><small>{{$val.LastSuccessSyncTransaction}}</small></td>
 
-                            <td>
-                                {{if eq $val.SyncStatusMaster 0}}
-                                    <small class="text-danger"><b>#No</b></small>
-                                {{else}}
-                                    <small class="text-success"><b>#Yes</b></small>
-                                {{end}}
-                                <br>
-                                {{if eq $val.SyncStatusTransaction 0}}
-                                    <small class="text-danger"><b>#No</b></small>
-                                {{else}}
-                                    <small class="text-success"><b>#Yes</b></small>
-                                {{end}}
+                        {{if eq $val.SyncStatusMaster 0}}
+                            <td><small>No</small></td>
+                        {{else}}
+                            <td data-toggle="tooltip" data-placement="bottom" data-html="true" title="Master is syncing ...">
+                                <img src="/static/gif/the-flash-running.gif" width="30px" >
                             </td>
+                        {{end}}
 
-                            <td>
-                                {{if eq $val.IsDailySync 0}}
-                                    <small class="text-danger"><b>#No</b></small>
-                                {{else}}
-                                    <small class="text-success"><b>#Yes</b></small>
-                                {{end}}
-                                    <br>
-                                    <small class="text-primary"><b>#{{$val.DailySyncTime}}</b></small>
+                        {{if eq $val.SyncStatusTransaction 0}}
+                            <td><small>No</small></td>
+                        {{else}}
+                            <td data-toggle="tooltip" data-placement="bottom" data-html="true" title="Transaction is syncing ...">
+                                <img src="/static/gif/the-flash-running.gif" width="30px">
                             </td>
+                        {{end}}
 
+                        {{if eq $val.IsDailySync 0}}
+                            <td><small class="text-danger"><b>No</b></small></td>
+                        {{else}}
+                            <td><small>Yes</small></td>
+                        {{end}}
+
+                            <td><small>{{$val.DailySyncTime}}</small></td>
+
+                        {{if eq $val.SyncTrnByProductName 0}}
+                            <td><small class="text-danger"><b>No</b></small></td>
+                        {{else}}
+                            <td><small>Yes</small></td>
+                        {{end}}
+
+                        {{if eq $val.IsTrackInventory 0}}
+                            <td><small class="text-danger"><b>No</b></small></td>
+                        {{else}}
+                            <td><small>Yes</small></td>
+                        {{end}}
+
+                        {{if eq $val.PaymentMethodV2 ""}}
+                            <td><small class="text-danger"><b>No</b></small></td>
+                        {{else}}
+                            <td><small>Yes</small></td>
+                        {{end}}
+
+                            <td><small>{{$val.CreatedAt}}</small></td>
+                            <td><small>{{$val.UpdatedAt}}</small></td>
+                            <td><small>{{$val.DeletedAt}}</small></td>
                         </tr>
                     {{ end }}
                     </tbody>
@@ -179,10 +190,65 @@
         </div>
     </div>
 </div>
-{{ end }}
-<script>
-    document.getElementById("ShowDeleted").selectedIndex = {{ .ShowDeleted }};
-    document.getElementById("ShowOnlySyncing").selectedIndex = {{ .ShowOnlySyncing }};
+<script type="text/javascript">
+
+    /*document.getElementById("ShowDeleted").selectedIndex = {{ .ShowDeleted }};
+    document.getElementById("ShowOnlySyncing").selectedIndex = {{ .ShowOnlySyncing }};*/
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+    $("#clearBtn").click(function(){
+        customReset()
+    });
+
+    function customReset() {
+        document.getElementById("CompanyId").value = "";
+        document.getElementById("ConnectionId").value = "";
+        document.getElementById("ConnectionName").value = "";
+        document.getElementById("ShowDeleted").selectedIndex = 0;
+        document.getElementById("ShowOnlySyncing").selectedIndex = 0;
+        $("#CompanyId").prop('readonly', false);
+        $("#ConnectionId").prop('readonly', false);
+        $("#ConnectionName").prop('readonly', false);
+        $("#ShowDeleted").css('pointer-events','auto');
+        $('#ShowDeleted').css('background','#fff');
+        $('#ShowOnlySyncing').css('pointer-events','auto');
+        $('#ShowOnlySyncing').css('background','#fff');
+    }
+
+    function connsOnChange(str) {
+        switch (str) {
+            case 1:
+                var CompanyId = document.getElementById("CompanyId").value;
+                customReset()
+                document.getElementById("CompanyId").value = CompanyId;
+                $('#ConnectionId').prop('readonly', true);
+                $('#ConnectionName').prop('readonly', true);
+                $('#ShowOnlySyncing').css('pointer-events','none');
+                $('#ShowOnlySyncing').css('background','#e9ecef');
+                break
+            case 2:
+                var ConnectionId = document.getElementById("ConnectionId").value;
+                customReset()
+                document.getElementById("ConnectionId").value = ConnectionId;
+                $('#CompanyId').prop('readonly', true);
+                $('#ConnectionName').prop('readonly', true);
+                $('#ShowOnlySyncing').css('pointer-events','none');
+                $('#ShowOnlySyncing').css('background','#e9ecef');
+                break
+            case 3:
+                var ConnectionName = document.getElementById("ConnectionName").value;
+                customReset()
+                document.getElementById("ConnectionName").value = ConnectionName;
+                $('#CompanyId').prop('readonly', true);
+                $('#ConnectionId').prop('readonly', true);
+                $('#ShowOnlySyncing').css('pointer-events','none');
+                $('#ShowOnlySyncing').css('background','#e9ecef');
+                break
+        }
+    }
+
 </script>
 
 {{ end }}

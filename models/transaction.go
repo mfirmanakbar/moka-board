@@ -1,12 +1,14 @@
 package models
 
 import (
-	"github.com/mfirmanakbar/moka-board/datasources"
+	"github.com/jinzhu/gorm"
+	"github.com/mfirmanakbar/moka-board/db"
 	"time"
 )
 
 type TransactionMapping struct {
-	Id                  int64     `json:"id"`
+	*gorm.Model
+	//Id                  int64     `json:"id"`
 	JurnalTransactionId int64     `json:"jurnal_transaction_id"`
 	MokaTransactionId   int64     `json:"moka_transaction_id"`
 	MokaTransactionType int       `json:"moka_transaction_type"`
@@ -40,7 +42,7 @@ func (tm *TransactionMapping) SearchData(prm TransactionParams) (*[]TransactionM
 		return &[]TransactionMapping{}, err
 	}
 
-	err = datasources.JmDb.Where(tm.QueryParams(prm)).Unscoped().Find(&transactionMappings).Error
+	err = db.JurnalMokaGorm.Where(tm.QueryParams(prm)).Unscoped().Find(&transactionMappings).Error
 	if err != nil {
 		return &transactionMappings, err
 	}

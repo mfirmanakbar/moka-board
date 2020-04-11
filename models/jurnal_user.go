@@ -2,27 +2,26 @@ package models
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/mfirmanakbar/moka-board/datasources"
-	"time"
+	"github.com/mfirmanakbar/moka-board/db"
 )
 
 type JurnalUser struct {
 	gorm.Model
-	Id              int64
+	//Id              int64
 	JurnalCompanyId int64
 	Email           string
 	AccessToken     string
-	CreatedAt       time.Time
-	UpdatedAt       time.Time
-	DeletedAt       time.Time
-	ViewSyncGuide   int
-	ViewStepGuide   int
+	//CreatedAt       time.Time
+	//UpdatedAt       time.Time
+	//DeletedAt       time.Time
+	ViewSyncGuide int
+	ViewStepGuide int
 }
 
 func (j JurnalUser) FindOne(id int64) (*JurnalUser, error) {
 	var err error
 	var jurnalUser JurnalUser
-	err = datasources.JmDb.First(&jurnalUser, id).Error
+	err = db.JurnalMokaGorm.First(&jurnalUser, id).Error
 	if err != nil {
 		return &jurnalUser, err
 	}
