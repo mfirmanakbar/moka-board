@@ -16,3 +16,5 @@
 /.idea
 /.env
 /moka-board
+.env.development
+.env.production

@@ -1,0 +1,32 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Localhost Debugging",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceRoot}",
+      "envFile": "${workspaceFolder}/.env",
+      "args": []
+    },
+    {
+      "name": "Staging Debugging",
+      "type": "go",
+      "request": "launch",
+      "mode": "debug",
+      "program": "${workspaceRoot}",
+      "envFile": "${workspaceFolder}/.env.development",
+      "args": []
+    },
+    {
+      "name": "Production Running",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceRoot}",
+      "envFile": "${workspaceFolder}/.env.production",
+      "args": []
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-package controllers
+package transaction_controller
 
 import (
 	"github.com/astaxie/beego"
@@ -6,20 +6,11 @@ import (
 	"github.com/mfirmanakbar/moka-board/utils"
 )
 
-type TransactionController struct {
+type View struct {
 	beego.Controller
 }
 
-type TransactionControllerInterface interface {
-	SearchParams() models.TransactionParams
-	DataModifiedParams(models.TransactionParams)
-}
-
-func Transaction() TransactionControllerInterface {
-	return &TransactionController{}
-}
-
-func (c *TransactionController) Get() {
+func (c *View) Get() {
 	prm := c.SearchParams()
 
 	tms, err := models.TransactionDTO().SearchData(prm)
@@ -35,7 +26,7 @@ func (c *TransactionController) Get() {
 	c.TplName = "transaction/index.html"
 }
 
-func (c *TransactionController) DataModifiedParams(prm models.TransactionParams) {
+func (c *View) DataModifiedParams(prm models.TransactionParams) {
 	if prm.MokaTransactionType > -1 {
 		c.Data["MokaTransactionType"] = prm.MokaTransactionType
 		c.Data["MokaTransactionTypeIndex"] = prm.MokaTransactionType + 1
@@ -51,7 +42,7 @@ func (c *TransactionController) DataModifiedParams(prm models.TransactionParams)
 	}
 }
 
-func (c *TransactionController) SearchParams() models.TransactionParams {
+func (c *View) SearchParams() models.TransactionParams {
 	params := models.TransactionParams{
 		MokaTransactionType: utils.ConvertStringToInt8(c.GetString("MokaTransactionType"), -1),
 		ConnectionId:        utils.ConvertStringToInt64(c.GetString("ConnectionId"), 0),

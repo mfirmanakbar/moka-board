@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/mfirmanakbar/moka-board/db"
 	"time"
+
+	"github.com/mfirmanakbar/moka-board/db"
 )
 
 // JurnalCompany has many JurnalUsers, JurnalCompanyID is the foreign key
@@ -35,9 +36,7 @@ func (j *JurnalCompany) FindConnectionsByCompanyId2(cid int64, showDeleted bool)
 		return &conns, err
 	}
 	for _, ams := range j.AccountMappings {
-		for _, cns := range ams.Connections {
-			conns = append(conns, cns)
-		}
+		conns = append(conns, ams.Connections...)
 	}
 	return &conns, nil
 }
@@ -45,7 +44,7 @@ func (j *JurnalCompany) FindConnectionsByCompanyId2(cid int64, showDeleted bool)
 func (j *JurnalCompany) FindConnectionsByCompanyId1(cid int64) (*JurnalCompany, error) {
 	var err error
 	_, _ = j.FindAccountMappingsByCompanyId(cid)
-	for index, _ := range j.AccountMappings {
+	for index := range j.AccountMappings {
 		err = db.JurnalMokaGorm.Model(j.AccountMappings[index]).Related(&j.AccountMappings[index].Connections).Unscoped().Error
 	}
 	if err != nil {
@@ -77,8 +76,7 @@ func (j *JurnalCompany) FindJurnalUsersByCompanyId(cid int64) (*JurnalCompany, e
 // (*JurnalCompany, error) 	--> cuma type data yang harus di return
 // (j *JurnalCompany) 		--> data object yang dipakai untuk simpen data dari DB
 func (j *JurnalCompany) FindOneByCompanyId(cid int64) (*JurnalCompany, error) {
-	var err error
-	err = db.JurnalMokaGorm.Where("company_id = ?", cid).First(&j).Error
+	err := db.JurnalMokaGorm.Where("company_id = ?", cid).First(&j).Error
 	if err != nil {
 		return j, err
 	}
