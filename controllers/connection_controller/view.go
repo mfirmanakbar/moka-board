@@ -1,12 +1,13 @@
 package connection_controller
 
 import (
-	"github.com/astaxie/beego"
-	"github.com/mfirmanakbar/moka-board/models"
 	"reflect"
 	"regexp"
 	"strconv"
 	"strings"
+
+	"github.com/astaxie/beego"
+	"github.com/mfirmanakbar/moka-board/models"
 )
 
 type View struct {
@@ -53,6 +54,7 @@ func (c *View) Get() {
 			c.Data["mokaAccount"] = resultMokaAccount
 		}
 	}
+	// c.Data["BaseURLOldFe"] = db.BaseURLOldFe
 	c.Data["ActiveMenu"] = "#MenuConnection"
 	c.Data["page_title"] = "Details of Connection ID: " + connectionIdStr
 	c.TplName = "connection/view.html"
