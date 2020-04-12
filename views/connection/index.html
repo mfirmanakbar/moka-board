@@ -1,6 +1,6 @@
 {{ template "layout_admin.html" . }}
 {{ define "css" }}
-    {{/*    <link rel="stylesheet" href="/static/css/example.css">*/}}
+{{/*    <link rel="stylesheet" href="/static/css/example.css">*/}}
 {{ end}}
 
 {{ define "content" }}
@@ -11,14 +11,15 @@
         <div class="row col-12">
             <div class="col-6 text-left">
                 {{ range $key, $value := .searchResultsOf }}
-                    <span class="">{{ $key }}: </span>
-                    <span class="text-primary"> <b>{{ $value }};</b> </span>
+                <span class="">{{ $key }}: </span>
+                <span class="text-primary"> <b>{{ $value }};</b> </span>
                 {{ end }}
             </div>
             <div class="col-6 text-right">
                 <!-- Trigger modal -->
                 <p class="text-right">
-                    <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true" data-toggle="modal" data-target="#exampleModal">
+                    <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true" data-toggle="modal"
+                        data-target="#exampleModal">
                         <i class="fas fa-search"></i> Data Filter
                     </a>
                 </p>
@@ -27,7 +28,8 @@
 
         <form method="get">
             <!-- Modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -39,59 +41,35 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <small>Jurnal Company ID</small>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-sm"
-                                    placeholder="Company ID"
-                                    name="CompanyId"
-                                    id="CompanyId"
-                                    {{/*value="{{ .CompanyId }}"*/}}
-                                    data-onload="connsOnChange(1)"
-                                    onchange="connsOnChange(1)"
-                                >
+                                <input type="text" class="form-control form-control-sm" placeholder="Company ID"
+                                    name="CompanyId" id="CompanyId" {{/*value="{{ .CompanyId }}"*/}}
+                                    data-onload="connsOnChange(1)" onchange="connsOnChange(1)">
                             </div>
                             <div class="form-group">
                                 <small>Connection ID</small>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-sm"
-                                    placeholder="Connection ID"
-                                    name="ConnectionId"
-                                    id="ConnectionId"
-                                    {{/*value="{{ .ConnectionId }}"*/}}
-                                    data-onload="connsOnChange(2)"
-                                    onchange="connsOnChange(2)"
-                                >
+                                <input type="text" class="form-control form-control-sm" placeholder="Connection ID"
+                                    name="ConnectionId" id="ConnectionId" {{/*value="{{ .ConnectionId }}"*/}}
+                                    data-onload="connsOnChange(2)" onchange="connsOnChange(2)">
                             </div>
                             <div class="form-group">
                                 <small>Connection Name</small>
-                                <input
-                                    type="text"
-                                    class="form-control form-control-sm"
-                                    placeholder="Connection Name"
-                                    name="ConnectionName"
-                                    id="ConnectionName"
-                                    {{/*value="{{ .ConnectionName }}"*/}}
-                                    data-onload="connsOnChange(3)"
-                                    onchange="connsOnChange(3)"
-                                >
+                                <input type="text" class="form-control form-control-sm" placeholder="Connection Name"
+                                    name="ConnectionName" id="ConnectionName" {{/*value="{{ .ConnectionName }}"*/}}
+                                    data-onload="connsOnChange(3)" onchange="connsOnChange(3)">
                             </div>
                             <div class="form-group">
                                 <small>Show Deleted</small>
-                                <select class="custom-select mr-sm-2 form-control-sm" name="ShowDeleted" id="ShowDeleted">
+                                <select class="custom-select mr-sm-2 form-control-sm" name="ShowDeleted"
+                                    id="ShowDeleted">
                                     <option value="false">No</option>
                                     <option value="true">Yes</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <small>Only Show Synchronizing</small>
-                                <select
-                                        class="custom-select
-                                        form-control-sm"
-                                        name="ShowOnlySyncing"
-                                        id="ShowOnlySyncing"
-                                        onclick="onShowOnlySyncing()"
-                                >
+                                <select class="custom-select
+                                        form-control-sm" name="ShowOnlySyncing" id="ShowOnlySyncing"
+                                    onclick="onShowOnlySyncing()">
                                     <option value="false">No</option>
                                     <option value="true">Yes</option>
                                 </select>
@@ -113,7 +91,8 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0" data-page-length='100'>
+                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0"
+                    data-page-length='100'>
                     <thead>
                         <tr class="text-center">
                             <th class="align-middle"><small><b>ConnectionID</b></small></th>
@@ -140,9 +119,18 @@
                         </tr>
                     </thead>
                     <tbody>
-                    {{ range $val := .conns }}
+                        {{ range $val := .conns }}
                         <tr class="text-center" style="white-space: nowrap;">
-                            <td><small><a href="/connection/{{$val.ID}}/view">{{$val.ID}}</a></small></td>
+                            <td>
+                                <small>
+                                    <a href="/connection/{{$val.ID}}/view" data-toggle="tooltip" data-placement="bottom"
+                                        data-html="true" title="view detail">{{$val.ID}}</a>
+                                    <a href="/log?ConnectionId={{$val.ID}}" data-toggle="tooltip" data-placement="right"
+                                        class="m-2" data-html="true" title="view logs">
+                                        <i class="far fa-list-alt"></i>
+                                    </a>
+                                </small>
+                            </td>
                             <td><small>{{$val.Name}}</small></td>
                             <td><small>{{$val.OutletId}}</small></td>
                             <td><small>{{$val.OutletName}}</small></td>
@@ -154,53 +142,55 @@
                             <td><small>{{$val.LastUpdatedSyncTransaction}}</small></td>
                             <td><small>{{$val.LastSuccessSyncTransaction}}</small></td>
 
-                        {{if eq $val.SyncStatusMaster 0}}
+                            {{if eq $val.SyncStatusMaster 0}}
                             <td><small>No</small></td>
-                        {{else}}
-                            <td data-toggle="tooltip" data-placement="bottom" data-html="true" title="Master is syncing ...">
-                                <img src="/static/gif/the-flash-running.gif" width="30px" >
-                            </td>
-                        {{end}}
-
-                        {{if eq $val.SyncStatusTransaction 0}}
-                            <td><small>No</small></td>
-                        {{else}}
-                            <td data-toggle="tooltip" data-placement="bottom" data-html="true" title="Transaction is syncing ...">
+                            {{else}}
+                            <td data-toggle="tooltip" data-placement="bottom" data-html="true"
+                                title="Master is syncing ...">
                                 <img src="/static/gif/the-flash-running.gif" width="30px">
                             </td>
-                        {{end}}
+                            {{end}}
 
-                        {{if eq $val.IsDailySync 0}}
+                            {{if eq $val.SyncStatusTransaction 0}}
+                            <td><small>No</small></td>
+                            {{else}}
+                            <td data-toggle="tooltip" data-placement="bottom" data-html="true"
+                                title="Transaction is syncing ...">
+                                <img src="/static/gif/the-flash-running.gif" width="30px">
+                            </td>
+                            {{end}}
+
+                            {{if eq $val.IsDailySync 0}}
                             <td><small class="text-danger"><b>No</b></small></td>
-                        {{else}}
+                            {{else}}
                             <td><small>Yes</small></td>
-                        {{end}}
+                            {{end}}
 
                             <td><small>{{$val.DailySyncTime}}</small></td>
 
-                        {{if eq $val.SyncTrnByProductName 0}}
+                            {{if eq $val.SyncTrnByProductName 0}}
                             <td><small class="text-danger"><b>No</b></small></td>
-                        {{else}}
+                            {{else}}
                             <td><small>Yes</small></td>
-                        {{end}}
+                            {{end}}
 
-                        {{if eq $val.IsTrackInventory 0}}
+                            {{if eq $val.IsTrackInventory 0}}
                             <td><small class="text-danger"><b>No</b></small></td>
-                        {{else}}
+                            {{else}}
                             <td><small>Yes</small></td>
-                        {{end}}
+                            {{end}}
 
-                        {{if eq $val.PaymentMethodV2 ""}}
+                            {{if eq $val.PaymentMethodV2 ""}}
                             <td><small class="text-danger"><b>No</b></small></td>
-                        {{else}}
+                            {{else}}
                             <td><small>Yes</small></td>
-                        {{end}}
+                            {{end}}
 
                             <td><small>{{$val.CreatedAt}}</small></td>
                             <td><small>{{$val.UpdatedAt}}</small></td>
                             <td><small>{{$val.DeletedAt}}</small></td>
                         </tr>
-                    {{ end }}
+                        {{ end }}
                     </tbody>
                 </table>
             </div>
@@ -215,7 +205,7 @@
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()
     })
-    $("#clearBtn").click(function(){
+    $("#clearBtn").click(function () {
         customReset()
     });
 
@@ -228,10 +218,10 @@
         $("#CompanyId").prop('readonly', false);
         $("#ConnectionId").prop('readonly', false);
         $("#ConnectionName").prop('readonly', false);
-        $("#ShowDeleted").css('pointer-events','auto');
-        $('#ShowDeleted').css('background','#fff');
-        $('#ShowOnlySyncing').css('pointer-events','auto');
-        $('#ShowOnlySyncing').css('background','#fff');
+        $("#ShowDeleted").css('pointer-events', 'auto');
+        $('#ShowDeleted').css('background', '#fff');
+        $('#ShowOnlySyncing').css('pointer-events', 'auto');
+        $('#ShowOnlySyncing').css('background', '#fff');
     }
 
     function connsOnChange(str) {
@@ -242,8 +232,8 @@
                 document.getElementById("CompanyId").value = CompanyId;
                 $('#ConnectionId').prop('readonly', true);
                 $('#ConnectionName').prop('readonly', true);
-                $('#ShowOnlySyncing').css('pointer-events','none');
-                $('#ShowOnlySyncing').css('background','#e9ecef');
+                $('#ShowOnlySyncing').css('pointer-events', 'none');
+                $('#ShowOnlySyncing').css('background', '#e9ecef');
                 break
             case 2:
                 var ConnectionId = document.getElementById("ConnectionId").value;
@@ -251,8 +241,8 @@
                 document.getElementById("ConnectionId").value = ConnectionId;
                 $('#CompanyId').prop('readonly', true);
                 $('#ConnectionName').prop('readonly', true);
-                $('#ShowOnlySyncing').css('pointer-events','none');
-                $('#ShowOnlySyncing').css('background','#e9ecef');
+                $('#ShowOnlySyncing').css('pointer-events', 'none');
+                $('#ShowOnlySyncing').css('background', '#e9ecef');
                 break
             case 3:
                 var ConnectionName = document.getElementById("ConnectionName").value;
@@ -260,8 +250,8 @@
                 document.getElementById("ConnectionName").value = ConnectionName;
                 $('#CompanyId').prop('readonly', true);
                 $('#ConnectionId').prop('readonly', true);
-                $('#ShowOnlySyncing').css('pointer-events','none');
-                $('#ShowOnlySyncing').css('background','#e9ecef');
+                $('#ShowOnlySyncing').css('pointer-events', 'none');
+                $('#ShowOnlySyncing').css('background', '#e9ecef');
                 break
         }
     }
@@ -273,8 +263,8 @@
         $('#CompanyId').prop('readonly', true);
         $('#ConnectionId').prop('readonly', true);
         $('#ConnectionName').prop('readonly', true);
-        $('#ShowDeleted').css('pointer-events','none');
-        $('#ShowDeleted').css('background','#e9ecef');
+        $('#ShowDeleted').css('pointer-events', 'none');
+        $('#ShowDeleted').css('background', '#e9ecef');
     }
 
 </script>
@@ -282,5 +272,5 @@
 {{ end }}
 
 {{ define "js" }}
-    {{/*    <script src="/static/js/example.js"></script>*/}}
+{{/*    <script src="/static/js/example.js"></script>*/}}
 {{ end}}
