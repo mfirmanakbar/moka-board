@@ -1,0 +1,191 @@
+{{ template "layout_admin.html" . }}
+{{ define "css" }}
+{{/*    <link rel="stylesheet" href="/static/css/example.css">*/}}
+{{ end}}
+
+{{ define "content" }}
+
+{{/*<div class="row">*/}}
+{{/*    <div class="col py-2 justify-content-md-center">*/}}
+{{/*    </div>*/}}
+{{/*</div>*/}}
+
+<div class="row">
+    <div class="table-responsive">
+        <div class="card">
+            <div class="card-body">
+                <form>
+                    <div class="row justify-content-end">
+                        <div class="col-md-2 offset-md-10">
+                            <button type="submit" class="btn btn-primary btn-sm btn-block">Update the Date</button>
+                        </div>
+                    </div>
+                    <hr>
+                    {{ $conDet := .connDetail }}
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">ID | Name</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.ID}} | {{$conDet.Name}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">OutletId | OutletName</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.OutletId}} |
+                            {{$conDet.OutletName}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">CreatedAt</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.CreatedAt}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">UpdatedAt</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.UpdatedAt}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">DeletedAt</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.DeletedAt}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-dark font-weight-bold">StartDate</label>
+                        <div class="col-sm-9">
+                            <input class="form-control form-control-sm w-50" name="StartDate"
+                                value="{{$conDet.StartDate}}">
+                        </div>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label
+                            class="col-sm-3 col-form-label text-right text-primary font-weight-bold">LastUpdatedSyncMaster</label>
+                        <div class="col-sm-9">
+                            <input class="form-control form-control-sm w-50" name="LastUpdatedSyncMaster"
+                                value="{{$conDet.LastUpdatedSyncMaster}}">
+                        </div>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label
+                            class="col-sm-3 col-form-label text-right text-success font-weight-bold">LastSuccessSyncMaster</label>
+                        <div class="col-sm-9">
+                            <input class="form-control form-control-sm w-50" name="LastSuccessSyncMaster"
+                                value="{{$conDet.LastSuccessSyncMaster}}">
+                        </div>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label
+                            class="col-sm-3 col-form-label text-right text-primary font-weight-bold">LastUpdatedSyncTransaction</label>
+                        <div class="col-sm-9">
+                            <input class="form-control form-control-sm w-50" name="LastUpdatedSyncTransaction"
+                                value="{{$conDet.LastUpdatedSyncTransaction}}">
+                        </div>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label
+                            class="col-sm-3 col-form-label text-right text-success font-weight-bold">LastSuccessSyncTransaction</label>
+                        <div class="col-sm-9">
+                            <input class="form-control form-control-sm w-50" name="LastSuccessSyncTransaction"
+                                value="{{$conDet.LastSuccessSyncTransaction}}">
+                        </div>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">Prefix | Suffix</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.Prefix}} | {{$conDet.Suffix}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">IsDailySync</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.IsDailySync}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">DailySyncTime</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.DailySyncTime}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">SyncTrnByProductName</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.SyncTrnByProductName}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">SyncStatusMaster</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.SyncStatusMaster}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">SyncStatusTransaction</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.SyncStatusTransaction}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">AccountMappingId</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.AccountMappingId}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">WarehouseId</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.WarehouseId}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">PaymentMethod</label>
+                        <div class="col-sm-9">
+                            <p>
+                                <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse"
+                                    data-target="#collapsePaymentMethod" aria-expanded="false"
+                                    aria-controls="collapsePaymentMethod">
+                                    Show Payment Method V1
+                                </button>
+                                <button class="btn btn-primary btn-sm" type="button" data-toggle="collapse"
+                                    data-target="#collapsePaymentMethodV2" aria-expanded="false"
+                                    aria-controls="collapsePaymentMethodV2">
+                                    Show Payment Method V2
+                                </button>
+                            </p>
+                            <div class="collapse" id="collapsePaymentMethod">
+                                <div class="card card-body">
+                                    {{$conDet.PaymentMethod}}
+                                </div>
+                            </div>
+                            <div class="collapse" id="collapsePaymentMethodV2">
+                                <div class="card card-body">
+                                    {{$conDet.PaymentMethodV2}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">TagIds</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.TagIds}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">ProductBuyAccountId</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.ProductBuyAccountId}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">ProductSellAccountId</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.ProductSellAccountId}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">DefaultCustomerId</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.DefaultCustomerId}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">RoundingAccountId</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.RoundingAccountId}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">RoundingProductId</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.RoundingProductId}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">IsTrackInventory</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.IsTrackInventory}}</label>
+                    </div>
+                    <div class="form-group-sm row">
+                        <label class="col-sm-3 col-form-label text-right text-muted">AddTrxNoIdentifier</label>
+                        <label class="col-sm-9 col-form-label text-left">{{$conDet.AddTrxNoIdentifier}}</label>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+</script>
+
+{{ end }}
+
+{{ define "js" }}
+{{/*    <script src="/static/js/example.js"></script>*/}}
+{{ end}}

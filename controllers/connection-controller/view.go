@@ -8,6 +8,7 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/mfirmanakbar/moka-board/models"
+	"github.com/mfirmanakbar/moka-board/myenv"
 )
 
 type View struct {
@@ -22,6 +23,7 @@ func (c *View) Get() {
 			ConnectionId: connectionId,
 			ShowDeleted:  true,
 		}
+
 		conn, err := models.ConnectionDTO().FindById(prm)
 		if err == nil {
 			resultConnectionDetail := make(map[string]interface{})
@@ -53,8 +55,25 @@ func (c *View) Get() {
 			}
 			c.Data["mokaAccount"] = resultMokaAccount
 		}
+
+		jurnalCompany, _ := models.ConnectionDTO().FindJurnalCompanyByConnId(connectionId)
+		if err == nil {
+			resultJurnalCompany := make(map[string]interface{})
+			refMa := reflect.ValueOf(jurnalCompany).Elem()
+			for i := 0; i < refMa.NumField(); i++ {
+				varName := refMa.Type().Field(i).Name
+				varValue := refMa.Field(i).Interface()
+				if !strings.Contains(strings.ToUpper(varName), "ACCOUNTMAPPING") && !strings.Contains(strings.ToUpper(varName), "JURNALUSERS") {
+					varName = splitUppercase(varName)
+					resultJurnalCompany[varName] = varValue
+				}
+			}
+			c.Data["jurnalCompany"] = resultJurnalCompany
+		}
+
 	}
-	// c.Data["BaseURLOldFe"] = db.BaseURLOldFe
+	c.Data["BaseURLOldFe"] = myenv.BaseURLOldFe
+	c.Data["BaseURLNewFe"] = myenv.BaseURLNewFe
 	c.Data["ActiveMenu"] = "#MenuConnection"
 	c.Data["page_title"] = "Details of Connection ID: " + connectionIdStr
 	c.TplName = "connection/view.html"

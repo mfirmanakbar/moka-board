@@ -4,6 +4,7 @@ import (
 	"time"
 
 	"github.com/mfirmanakbar/moka-board/db"
+	"github.com/mfirmanakbar/moka-board/objson"
 	utils "github.com/mfirmanakbar/moka-board/utils/paginator_util"
 )
 
@@ -19,6 +20,7 @@ type LoggingSummary struct {
 	UpdatedAt      *time.Time      `sql:"index" json:"updated_at"`
 	DeletedAt      *time.Time      `sql:"index" json:"deleted_at"`
 	LoggingDetails []LoggingDetail `gorm:"foreignkey:SummaryId"`
+	NotesJson      objson.LogNotes `gorm:"-"`
 }
 
 func (l *LoggingSummary) FindOneByConnectionId(id int64) (*[]LoggingSummary, *utils.PaginatorResult, error) {
@@ -37,6 +39,18 @@ func (l *LoggingSummary) FindOneByConnectionId(id int64) (*[]LoggingSummary, *ut
 		Limit:   10,
 		OrderBy: []string{"id desc"},
 	}, &loggingsummries)
+
+	// for _, lss := range loggingsummries {
+	// 	pingData := lss.Notes
+	// 	pingJSON := make(map[string][]objson.LogNotes)
+	// 	println(pingData)
+	// 	json.Unmarshal([]byte(pingData), &pingJSON)
+	// 	println(pingJSON)
+	// 	// err = json.Unmarshal([]byte(pingData), &pingJSON)
+	// 	// if err != nil {
+	// 	// 	println(err.Error())
+	// 	// }
+	// }
 
 	return &loggingsummries, pgn, nil
 }

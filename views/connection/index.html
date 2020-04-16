@@ -91,12 +91,13 @@
     <div class="card">
         <div class="card-body">
             <div class="table-responsive">
-                <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0"
+                <table class="table table-bordered table-hover table-sm" id="dataTable" width="100%" cellspacing="0"
                     data-page-length='100'>
                     <thead>
                         <tr class="text-center">
-                            <th class="align-middle"><small><b>ConnectionID</b></small></th>
+                            <th class="align-middle"><small><b>ID</b></small></th>
                             <th class="align-middle"><small><b>Connection Name</b></small></th>
+                            <th class="align-middle"><small><b>Actions</b></small></th>
                             <th class="align-middle"><small><b>OutletId</b></small></th>
                             <th class="align-middle"><small><b>OutletName</b></small></th>
                             <th class="align-middle"><small><b>Prefix</b></small></th>
@@ -121,17 +122,24 @@
                     <tbody>
                         {{ range $val := .conns }}
                         <tr class="text-center" style="white-space: nowrap;">
+                            <td style="min-width: 50px;"><small>{{$val.ID}}</small></td>
+                            <td><small>{{$val.Name}}</small></td>
                             <td>
                                 <small>
-                                    <a href="/connection/{{$val.ID}}/view" data-toggle="tooltip" data-placement="bottom"
-                                        data-html="true" title="view detail">{{$val.ID}}</a>
+                                    <a href="/connection/{{$val.ID}}/edit" data-toggle="tooltip" data-placement="right"
+                                        class="m-2" data-html="true" title="edit" target="_blank">
+                                        <i class="far fa-edit"></i>
+                                    </a>
+                                    <a href="/connection/{{$val.ID}}/view" data-toggle="tooltip" data-placement="right"
+                                        class="m-2" data-html="true" title="view" target="_blank">
+                                        <i class="far fa-eye"></i>
+                                    </a>
                                     <a href="/log?ConnectionId={{$val.ID}}" data-toggle="tooltip" data-placement="right"
-                                        class="m-2" data-html="true" title="view logs">
-                                        <i class="far fa-list-alt"></i>
+                                        class="m-2" data-html="true" title="logs" target="_blank">
+                                        <i class="fas fa-tasks"></i>
                                     </a>
                                 </small>
                             </td>
-                            <td><small>{{$val.Name}}</small></td>
                             <td><small>{{$val.OutletId}}</small></td>
                             <td><small>{{$val.OutletName}}</small></td>
                             <td><small>{{$val.Prefix}}</small></td>

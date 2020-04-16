@@ -119,13 +119,46 @@
                     <td><small>{{$val.ID}}</small></th>
                     <td><small>{{$val.ConnectionId}}</small></th>
                     <td><small style="white-space: nowrap;">{{$val.SyncDate}}</small></th>
-                    <td><small>{{$val.StatusType}}</small></th>
-                    <td><small>{{$val.MethodSyncType}}</small></th>
-                    <td><small>{{$val.DataType}}</small></th>
-                    <td><small>{{$val.Notes}}</small></th>
-                    <td><small style="white-space: nowrap;">{{$val.CreatedAt}}</small></th>
-                    <td><small style="white-space: nowrap;">{{$val.UpdatedAt}}</small></th>
-                    <td><small style="white-space: nowrap;">{{$val.DeletedAt}}</small></th>
+                    <td>
+                        {{if eq $val.StatusType 0}}
+                        <small class="text-warning">IN_PROGRESS</small>
+                        {{else if eq $val.StatusType 1}}
+                        <small class="text-success">SUCCESS</small>
+                        {{else if eq $val.StatusType 2}}
+                        <small class="text-danger">PARTIAL</small>
+                        {{else if eq $val.StatusType 3}}
+                        <small class="text-danger">FAILED</small>
+                        {{else}}
+                        <small class="text-primary">UNKNOWN</small>
+                        {{end}}
+                    </td>
+                    <td>
+                        {{if eq $val.MethodSyncType 0}}
+                        <small class="text-dark">MANUAL</small>
+                        {{else if eq $val.MethodSyncType 1}}
+                        <small class="text-dark">AUTO</small>
+                        {{else}}
+                        <small class="text-primary">UNKNOWN</small>
+                        {{end}}
+                    </td>
+                    <td>
+                        {{if eq $val.DataType 0}}
+                        <small class="text-dark">ALL</small>
+                        {{else if eq $val.DataType 1}}
+                        <small class="text-dark">MASTER</small>
+                        {{else if eq $val.DataType 2}}
+                        <small class="text-dark">TRANSACTION</small>
+                        {{else}}
+                        <small class="text-primary">UNKNOWN</small>
+                        {{end}}
+                    </td>
+                    <td>
+                        <small>{{$val.Notes}}</small>
+                        <small>{{$val.Notes}}</small>
+                    </td>
+                    <td><small style="white-space: nowrap;">{{$val.CreatedAt}}</small></td>
+                    <td><small style="white-space: nowrap;">{{$val.UpdatedAt}}</small></td>
+                    <td><small style="white-space: nowrap;">{{$val.DeletedAt}}</small></td>
                 </tr>
                 {{ end }}
             </tbody>

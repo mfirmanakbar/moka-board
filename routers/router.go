@@ -13,5 +13,6 @@ func init() {
 	beego.Router("/transaction", &TransactionConnection.View{})
 	beego.Router("/connection", &ConnectionController.Index{})
 	beego.Router("/connection/:id([0-9]+/view", &ConnectionController.View{})
+	beego.Router("/connection/:id([0-9]+/edit", &ConnectionController.Edit{})
 	beego.Router("/log", &LogConnection.Index{})
 }

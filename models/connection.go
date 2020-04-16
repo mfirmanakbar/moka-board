@@ -1,8 +1,9 @@
 package models
 
 import (
-	"github.com/mfirmanakbar/moka-board/db"
 	"time"
+
+	"github.com/mfirmanakbar/moka-board/db"
 )
 
 type Connection struct {
@@ -53,10 +54,31 @@ type ConnectionInterface interface {
 	SearchData(ConnectionParams) (*[]Connection, error)
 	FindById(ConnectionParams) (*Connection, error)
 	QueryParams(ConnectionParams) map[string]interface{}
+	FindJurnalCompanyByConnId(connId int64) (*JurnalCompany, error)
 }
 
 func ConnectionDTO() ConnectionInterface {
 	return &Connection{}
+}
+
+func (c Connection) FindJurnalCompanyByConnId(connId int64) (*JurnalCompany, error) {
+	var err error
+	var conn Connection
+	var accMap AccountMapping
+	var jurnalCompany JurnalCompany
+	err = db.JurnalMokaGorm.Where("id = ?", connId).First(&conn).Unscoped().Error
+	if err != nil {
+		return nil, err
+	}
+	err = db.JurnalMokaGorm.Where("id = ?", conn.AccountMappingId).First(&accMap).Unscoped().Error
+	if err != nil {
+		return nil, err
+	}
+	err = db.JurnalMokaGorm.Where("id = ?", accMap.JurnalCompanyId).First(&jurnalCompany).Unscoped().Error
+	if err != nil {
+		return nil, err
+	}
+	return &jurnalCompany, nil
 }
 
 func (c Connection) FindById(prm ConnectionParams) (*Connection, error) {

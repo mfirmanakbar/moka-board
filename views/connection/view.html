@@ -1,6 +1,6 @@
 {{ template "layout_admin.html" . }}
 {{ define "css" }}
-    {{/*    <link rel="stylesheet" href="/static/css/example.css">*/}}
+{{/*    <link rel="stylesheet" href="/static/css/example.css">*/}}
 {{ end}}
 
 {{ define "content" }}
@@ -17,86 +17,104 @@
 
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="connection-tab" data-toggle="tab" href="#connection" role="tab" aria-controls="connection" aria-selected="true">Connection</a>
+                        <a class="nav-link active" id="connection-tab" data-toggle="tab" href="#connection" role="tab"
+                            aria-controls="connection" aria-selected="true">Connection</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="jurnalUser-tab" data-toggle="tab" href="#jurnalUser" role="tab" aria-controls="jurnalUser" aria-selected="false">Jurnal User</a>
+                        <a class="nav-link" id="jurnalUser-tab" data-toggle="tab" href="#jurnalUser" role="tab"
+                            aria-controls="jurnalUser" aria-selected="false">Jurnal User</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="mokaAccount-tab" data-toggle="tab" href="#mokaAccount" role="tab" aria-controls="mokaAccount" aria-selected="false">Moka Account</a>
+                        <a class="nav-link" id="mokaAccount-tab" data-toggle="tab" href="#mokaAccount" role="tab"
+                            aria-controls="mokaAccount" aria-selected="false">Moka Account</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="urnalCompany-tab" data-toggle="tab" href="#jurnalCompany" role="tab"
+                            aria-controls="mokaAccount" aria-selected="false">Jurnal Company</a>
                     </li>
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="connection" role="tabpanel" aria-labelledby="connection-tab">
+                    <div class="tab-pane fade show active" id="connection" role="tabpanel"
+                        aria-labelledby="connection-tab">
                         <br>
                         {{ range $key, $value := .connectionDetail }}
-                            <div class="row mt-2">
-                                <div class="col-3 text-right">
-                                    <span class="text-right text-muted">{{ $key }}</span>
-                                </div>
-                                <div class="col-9">
-                                    <span class="text-right">{{ $value }}</span>
-                                </div>
+                        <div class="row mt-2">
+                            <div class="col-3 text-sm-right">
+                                <p class="text-sm-right text-muted">{{ $key }}</span>
                             </div>
+                            <div class="col-9">
+                                <p class="text-sm-left">{{ $value }}</span>
+                            </div>
+                        </div>
                         {{ end }}
                     </div>
                     <div class="tab-pane fade" id="jurnalUser" role="tabpanel" aria-labelledby="jurnalUser-tab">
                         <br>
                         <table class="table table-hover table-sm">
                             <thead class="text-center">
-                            <tr>
-                                <th scope="col">Email</th>
-                                <th scope="col">AccessToken</th>
-                                <th scope="col">Front-End</th>
-                                <th scope="col">CreatedAt</th>
-                                <th scope="col">UpdatedAt</th>
-                                <th scope="col">DeletedAt</th>
-                            </tr>
+                                <tr>
+                                    <th scope="col"><small><b>Email</b></small></th>
+                                    <th scope="col"><small><b>AccessToken</b></small></th>
+                                    <th scope="col"><small><b>Frontend</b></small></th>
+                                    <th scope="col"><small><b>CreatedAt</b></small></th>
+                                    <th scope="col"><small><b>UpdatedAt</b></small></th>
+                                    <th scope="col"><small><b>DeletedAt</b></small></th>
+                                </tr>
                             </thead>
                             <tbody>
-                            {{ range $ju := .jurnalUsers }}
+                                {{ $BaseURLNewFe := .BaseURLNewFe }}
+                                {{ $BaseURLOldFe := .BaseURLOldFe }}
+                                {{ range $ju := .jurnalUsers }}
                                 <tr class="text-center">
-                                    <td>{{$ju.Email}}</td>
-                                    <td>{{$ju.AccessToken}}</td>
+                                    <td><small>{{$ju.Email}}</small></td>
+                                    <td><small>{{$ju.AccessToken}}</small></td>
                                     <td>
-                                        <div class="btn-group" role="group" aria-label="Button group with nested dropdown">
-                                            <a
-                                                type="button"
-                                                href="https://moka-addons-fe.sleekr.id/?access_token={{$ju.AccessToken}}&locale=en"
-                                                class="btn btn-primary"
-                                                target="_blank"
-                                            >
-                                                Mythic
+                                        <div class="btn-group btn-group-sm" role="group"
+                                            aria-label="Button group with nested dropdown">
+                                            <a type="button"
+                                                href="{{$BaseURLNewFe}}/?access_token={{$ju.AccessToken}}&locale=en"
+                                                class="btn btn-success" target="_blank">
+                                                New-FE
                                             </a>
-                                            <a
-                                                type="button"
-                                                href="https://moka-frontend.cd.jurnal.id/settings?access_token={{$ju.AccessToken}}&locale=en"
-                                                class="btn btn-warning"
-                                                target="_blank"
-                                            >
-                                                Legend
+                                            <a type="button"
+                                                href="{{$BaseURLOldFe}}/settings?access_token={{$ju.AccessToken}}&locale=en"
+                                                class="btn btn-secondary" target="_blank">
+                                                Old-FE
                                             </a>
                                         </div>
                                     </td>
-                                    <td>{{$ju.CreatedAt}}</td>
-                                    <td>{{$ju.UpdatedAt}}</td>
-                                    <td>{{$ju.DeletedAt}}</td>
+                                    <td><small>{{$ju.CreatedAt}}</small></td>
+                                    <td><small>{{$ju.UpdatedAt}}</small></td>
+                                    <td><small>{{$ju.DeletedAt}}</small></td>
                                 </tr>
-                            {{ end }}
+                                {{ end }}
                             </tbody>
                         </table>
                     </div>
                     <div class="tab-pane fade" id="mokaAccount" role="tabpanel" aria-labelledby="mokaAccount-tab">
                         <br>
                         {{ range $key, $value := .mokaAccount }}
-                            <div class="row mt-2">
-                                <div class="col-3 text-right">
-                                    <span class="text-right text-muted">{{ $key }}</span>
-                                </div>
-                                <div class="col-9">
-                                    <span class="text-right">{{ $value }}</span>
-                                </div>
+                        <div class="row mt-2">
+                            <div class="col-3 text-right">
+                                <span class="text-right text-muted">{{ $key }}</span>
                             </div>
+                            <div class="col-9">
+                                <span class="text-right">{{ $value }}</span>
+                            </div>
+                        </div>
+                        {{ end }}
+                    </div>
+                    <div class="tab-pane fade" id="jurnalCompany" role="tabpanel" aria-labelledby="jurnalCompany-tab">
+                        <br>
+                        {{ range $keyjc, $valuejc := .jurnalCompany }}
+                        <div class="row mt-2">
+                            <div class="col-3 text-right">
+                                <span class="text-right text-muted">{{ $keyjc }}</span>
+                            </div>
+                            <div class="col-9">
+                                <span class="text-right">{{ $valuejc }}</span>
+                            </div>
+                        </div>
                         {{ end }}
                     </div>
                 </div>
@@ -113,5 +131,5 @@
 {{ end }}
 
 {{ define "js" }}
-    {{/*    <script src="/static/js/example.js"></script>*/}}
+{{/*    <script src="/static/js/example.js"></script>*/}}
 {{ end}}
