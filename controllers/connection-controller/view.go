@@ -26,16 +26,7 @@ func (c *View) Get() {
 
 		conn, err := models.ConnectionDTO().FindById(prm)
 		if err == nil {
-			resultConnectionDetail := make(map[string]interface{})
-			refConn := reflect.ValueOf(conn).Elem()
-			for i := 0; i < refConn.NumField(); i++ {
-				varName := refConn.Type().Field(i).Name
-				//varType := e.Type().Field(i).Type
-				varValue := refConn.Field(i).Interface()
-				varName = splitUppercase(varName)
-				resultConnectionDetail[varName] = varValue
-			}
-			c.Data["connectionDetail"] = resultConnectionDetail
+			c.Data["connDetail"] = conn
 		}
 
 		jurnalUsers, _ := models.JurnalUserDTO().FindByConnectionId(connectionId)
