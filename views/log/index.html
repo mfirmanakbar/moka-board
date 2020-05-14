@@ -98,7 +98,8 @@
         <!-- <div class="card"> -->
         <!-- <div class="card-body"> -->
 
-        <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0" data-page-length='10'>
+        <!-- <table class="table table-bordered table-sm" id="dataTable" width="100%" cellspacing="0" data-page-length='10'> -->
+        <table class="table table-bordered table-sm">
             <thead class="text-center">
                 <tr>
                     <th scope="col"><small>ID</small></th>
@@ -107,7 +108,7 @@
                     <th scope="col"><small>Status Type</small></th>
                     <th scope="col"><small>Method Sync Type</small></th>
                     <th scope="col"><small>Data Type</small></th>
-                    <th scope="col"><small>Notes</small></th>
+                    <!-- <th scope="col"><small>Notes</small></th> -->
                     <th scope="col"><small>CreatedAt</small></th>
                     <th scope="col"><small>UpdatedAt</small></th>
                     <th scope="col"><small>DeletedAt</small></th>
@@ -152,10 +153,10 @@
                         <small class="text-primary">UNKNOWN</small>
                         {{end}}
                     </td>
-                    <td>
+                    <!-- <td>
                         <small>{{$val.Notes}}</small>
                         <small>{{$val.Notes}}</small>
-                    </td>
+                    </td> -->
                     <td><small style="white-space: nowrap;">{{$val.CreatedAt}}</small></td>
                     <td><small style="white-space: nowrap;">{{$val.UpdatedAt}}</small></td>
                     <td><small style="white-space: nowrap;">{{$val.DeletedAt}}</small></td>
@@ -167,6 +168,24 @@
         <!-- </div> -->
         <!-- </div> -->
     </div>
+
+
+    <div class="row col-12">
+        <div class="col-6 text-left">
+        </div>
+        <div class="col-6 text-right">
+            <div class="text-right">
+                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                    <a href="http://{{.UrlPath}}1" class="btn btn-dark"> First </a>
+                    <a href="http://{{.UrlPath}}{{.pgn.PrevPage}}" class="btn btn-info">Prev</a>
+                    <a href="http://{{.UrlPath}}{{.pgn.Page}}" class="btn btn-dark">{{ .pgn.Page }}</a>
+                    <a href="http://{{.UrlPath}}{{.pgn.NextPage}}" class="btn btn-info">Next</a>
+                    <a href="http://{{.UrlPath}}{{.pgn.TotalPage}}" class="btn btn-dark"> Last </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script type="text/javascript">

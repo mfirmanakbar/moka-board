@@ -123,8 +123,8 @@ func (c Connection) QueryParams(prm ConnectionParams) map[string]interface{} {
 	if prm.ConnectionId > 0 {
 		queryParams["id"] = prm.ConnectionId
 	}
-	if !prm.ShowDeleted {
-		queryParams["deleted_at"] = "IS NULL"
-	}
+	// if !prm.ShowDeleted {
+	// 	queryParams["deleted_at"] = nil
+	// }
 	return queryParams
 }

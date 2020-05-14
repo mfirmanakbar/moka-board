@@ -23,11 +23,11 @@ type LoggingSummary struct {
 	NotesJson      objson.LogNotes `gorm:"-"`
 }
 
-func (l *LoggingSummary) FindOneByConnectionId(id int64) (*[]LoggingSummary, *utils.PaginatorResult, error) {
+func (l *LoggingSummary) FindOneByConnectionId(ConnectionId int64, PageInput int) (*[]LoggingSummary, *utils.PaginatorResult, error) {
 	var loggingsummries []LoggingSummary
 	pgn := &utils.PaginatorResult{}
 
-	dbres := db.JurnalMokaGorm.Where("connection_id = ?", id)
+	dbres := db.JurnalMokaGorm.Where("connection_id = ?", ConnectionId)
 	err := dbres.Error
 	if err != nil {
 		return &loggingsummries, pgn, err
@@ -35,7 +35,7 @@ func (l *LoggingSummary) FindOneByConnectionId(id int64) (*[]LoggingSummary, *ut
 
 	pgn = utils.PaginatorUtil().Paging(&utils.PaginatorParam{
 		DB:      dbres,
-		Page:    1,
+		Page:    PageInput,
 		Limit:   10,
 		OrderBy: []string{"id desc"},
 	}, &loggingsummries)
@@ -56,7 +56,7 @@ func (l *LoggingSummary) FindOneByConnectionId(id int64) (*[]LoggingSummary, *ut
 }
 
 type LoggingSummaryInterface interface {
-	FindOneByConnectionId(id int64) (*[]LoggingSummary, *utils.PaginatorResult, error)
+	FindOneByConnectionId(ConnectionId int64, Page int) (*[]LoggingSummary, *utils.PaginatorResult, error)
 }
 
 func LoggingSummaryDTO() LoggingSummaryInterface {
